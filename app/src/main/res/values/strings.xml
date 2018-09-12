@@ -6,6 +6,11 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="lease_title">Lease Title</string>
+    <string name="lease_date">Start date</string>
+    <string name="lease_period">Period</string>
+    <string name="limited_miles">Limited miles</string>
+    <string name="overpay_per_mile">Over pay</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
