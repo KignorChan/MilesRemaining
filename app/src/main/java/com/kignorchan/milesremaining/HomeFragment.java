@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -28,6 +30,14 @@ public class HomeFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private View v;
+
+    TextView leaseTitle;
+    TextView leasePeriod;
+    TextView distanceUnit;
+
+    CarLease carLease;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -60,13 +70,30 @@ public class HomeFragment extends Fragment {
         }
 
         getActivity().setTitle("Home");
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        v = inflater.inflate(R.layout.fragment_home, container, false);
+
+        if(Information.carLeases.size()!=0){
+            carLease = Information.carLeases.get(Information.carLeases.size()-1);
+
+            Log.i("Home:", carLease.getLeaseTitle());
+            leaseTitle = (TextView)v.findViewById(R.id.home_title);
+            leaseTitle.setText(carLease.getLeaseTitle());
+
+            leasePeriod = (TextView)v.findViewById(R.id.home_period);
+            leasePeriod.setText(carLease.getPeriod());
+
+            distanceUnit = (TextView)v.findViewById(R.id.home_unit);
+            distanceUnit.setText(carLease.getDistanceUnit());
+        }
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

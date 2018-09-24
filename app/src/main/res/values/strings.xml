@@ -11,6 +11,7 @@
     <string name="lease_period">Period</string>
     <string name="limited_miles">Limited miles</string>
     <string name="overpay_per_mile">Over pay</string>
+    <string name="submit">Submit</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

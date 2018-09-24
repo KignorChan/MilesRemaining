@@ -3,11 +3,13 @@ package com.kignorchan.milesremaining;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +20,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import org.json.JSONArray;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnFragmentInteractionListener, CarListFragment.OnFragmentInteractionListener, SettingFragment.OnFragmentInteractionListener, AboutFragment.OnFragmentInteractionListener {
@@ -31,14 +35,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -48,6 +52,29 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        try{
+            String json = DataController.readJsonFile(Information.FILENAME, MainActivity.this);
+            if(json.equals("null")){
+                DataController.storeJsonToLocal("[]",Information.FILENAME,MainActivity.this);
+            }
+            Log.i("JSONHOME", json);
+
+            if(!Information.carLeases.isEmpty()){
+                Information.carLeases.clear();
+            }
+
+            JSONArray jsonarray = new JSONArray(json);
+            for(int i=0; i<jsonarray.length(); i++){
+                Information.carLeases.add(DataController.parseJsonToCarleaseObject(jsonarray.getJSONObject(i).toString()));
+            }
+
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         Fragment fragment=null;
         Class fragmentClass = null;
@@ -64,6 +91,9 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ft=fm.beginTransaction();
         ft.replace(R.id.container, fragment);
         ft.commit();
+
+
+        getIntent().setAction("Already created");
     }
 
     @Override
@@ -148,5 +178,20 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onResume() {
+        String action = getIntent().getAction();
+        // Prevent endless loop by adding a unique action, don't restart if action is present
+        if(action == null || !action.equals("Already created")) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        // Remove the unique action so the next time onResume is called it will restart
+        else
+            getIntent().setAction(null);
 
+        super.onResume();
+
+    }
 }

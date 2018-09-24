@@ -6,9 +6,18 @@
     tools:context=".CarListFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Car list" />
+        android:orientation="vertical">
 
+        <ListView
+            android:id="@+id/carlist_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"/>
+    </LinearLayout>
 </FrameLayout>
