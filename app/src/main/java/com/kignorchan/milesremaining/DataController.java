@@ -140,4 +140,26 @@ public class DataController {
 
         return obj;
     }
+
+    //calculate for some data
+    //average miles per day runeed(runned miles / days pass
+    public static Double averageRunnedMilesPerDay(Double runnedMiles, Integer passedDays){
+        return runnedMiles/passedDays;
+    }
+
+    public static Double percentageDaysPassed(Date carleaseStartDate, Integer totalDays){
+        Double percentagePassed = 0.0;
+        try{
+            Date currentDate = getCurrentDate();
+            Integer daysPassed = dateDiff(carleaseStartDate, currentDate);
+            percentagePassed = Double.valueOf(daysPassed)/totalDays;
+        }catch(Exception e){
+
+        }
+
+        return percentagePassed;
+    }
+    public static Double totalMilesPredict(Double averageMilesperDay, Integer carleaseTotalDays){
+        return averageMilesperDay*carleaseTotalDays;
+    }
 }
