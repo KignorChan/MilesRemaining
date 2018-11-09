@@ -206,7 +206,11 @@ public class AddNewLeaseActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+//                Bundle bundle = new Bundle();
+//                bundle.putAll(newLease);
+
                 finish();
+
             }
         }
         return super.onOptionsItemSelected(item);

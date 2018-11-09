@@ -179,19 +179,35 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume() {
-        String action = getIntent().getAction();
-        // Prevent endless loop by adding a unique action, don't restart if action is present
-        if(action == null || !action.equals("Already created")) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
-        // Remove the unique action so the next time onResume is called it will restart
-        else
-            getIntent().setAction(null);
+    public void onContentChanged() {
 
-        super.onResume();
-
+        super.onContentChanged();
     }
+
+    //    @Override
+//    protected void onResume() {
+//        String action = getIntent().getAction();
+//        // Prevent endless loop by adding a unique action, don't restart if action is present
+//        if(action == null || !action.equals("Already created")) {
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
+//        // Remove the unique action so the next time onResume is called it will restart
+//        else
+//            getIntent().setAction(null);
+//
+//        super.onResume();
+//
+//    }
+//    @Override
+//    protected void onResume(){
+//        Log.i("MAINONRESUME","hsdgf");
+//        super.onResume();
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//    }
 }

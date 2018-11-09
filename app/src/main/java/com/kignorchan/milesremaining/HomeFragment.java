@@ -134,4 +134,23 @@ public class HomeFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    @Override
+    public void onResume() {
+        if(Information.carLeases.size()!=0){
+            carLease = Information.carLeases.get(Information.carLeases.size()-1);
+
+            Log.i("Home:", carLease.getLeaseTitle());
+            leaseTitle = (TextView)v.findViewById(R.id.home_title);
+            leaseTitle.setText(carLease.getLeaseTitle());
+
+            leasePeriod = (TextView)v.findViewById(R.id.home_period);
+            leasePeriod.setText(carLease.getPeriod());
+
+            distanceUnit = (TextView)v.findViewById(R.id.home_unit);
+            distanceUnit.setText(carLease.getDistanceUnit());
+        }
+        Log.i("HomeFragment", "AAAAAA");
+        super.onResume();
+    }
 }
